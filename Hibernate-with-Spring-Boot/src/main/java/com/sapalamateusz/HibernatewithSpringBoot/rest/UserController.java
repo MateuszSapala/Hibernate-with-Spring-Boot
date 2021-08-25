@@ -31,7 +31,9 @@ public class UserController {
     @GetMapping
     public CollectionModel<EntityModel<User>> getAllUser(){
         List<EntityModel<User>> users = userService.getAllUser().stream().map(userModelAssembler::toModel).collect(Collectors.toList());
-        return CollectionModel.of(users, WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UserController.class).getAllUser()).withSelfRel());
+        return CollectionModel.of(users,
+                WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UserController.class).getAllUser()).withSelfRel(),
+                WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UserController.class).addUser(new User())).withRel("Add user"));
     }
 
     @GetMapping("/{id}")
