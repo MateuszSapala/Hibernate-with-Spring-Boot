@@ -45,4 +45,10 @@ public class UserController {
         EntityModel<User> entityModel = userModelAssembler.toModel(userService.saveUser(user));
         return  ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> changeUser(@RequestBody User newUser, @PathVariable Long id){
+        EntityModel<User> entityModel = userModelAssembler.toModel(userService.changeUser(newUser, id));
+        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
+    }
 }

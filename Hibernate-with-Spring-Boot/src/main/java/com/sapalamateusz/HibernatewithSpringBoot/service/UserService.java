@@ -29,8 +29,7 @@ public class UserService implements IUserService{
 
     @Override
     public User saveUser(User user){
-        userRepository.save(user);
-        return user;
+        return userRepository.save(user);
     }
 
     @Override
@@ -39,14 +38,14 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public void changeUser(User newUser, Long id) {
+    public User changeUser(User newUser, Long id) {
         Optional<User> user = userRepository.findById(id);
-        if(user.isEmpty()){
-            newUser.setId(id);
-            saveUser(newUser);
-            return;
+        if(user.isEmpty()) {
+            return saveUser(newUser);
         }
-        user.get().setName(newUser.getName());
-        user.get().setRole(newUser.getRole());
+        User u = user.get();
+        u.setName(newUser.getName());
+        u.setRole(newUser.getRole());
+        return saveUser(u);
     }
 }

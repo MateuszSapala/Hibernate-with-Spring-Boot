@@ -17,7 +17,7 @@ public class LoadDatabase {
         return args -> {
             userRepository.save(new User("admin123","administrator"));
             userRepository.save(new User("user123", "user"));
-            userRepository.findAll().forEach(user -> logger.info("Preloaded "+user));
+            userRepository.findAll().forEach(u -> logger.info("Preloaded "+u));
         };
     }
 }
