@@ -10,7 +10,7 @@ public interface IUserService {
 
     public Optional<User> getUserById(Long id);
 
-    public void saveUser(User user);
+    public User saveUser(User user);
 
     public void deleteUser(Long id);
 

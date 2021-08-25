@@ -7,11 +7,10 @@ import com.sapalamateusz.HibernatewithSpringBoot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,5 +38,11 @@ public class UserController {
     public EntityModel<User> getUserById(@PathVariable Long id){
         User user = userService.getUserById(id).orElseThrow(() -> new UserNotFoundException(id));
         return userModelAssembler.toModel(user);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> addUser(@RequestBody User user){
+        EntityModel<User> entityModel = userModelAssembler.toModel(userService.saveUser(user));
+        return  ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
 }
