@@ -51,4 +51,10 @@ public class UserController {
         EntityModel<User> entityModel = userModelAssembler.toModel(userService.changeUser(newUser, id));
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id){
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
 }
